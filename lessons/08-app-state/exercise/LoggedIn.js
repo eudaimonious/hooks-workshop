@@ -10,7 +10,7 @@ import User from "app/User"
 import NotFound from "app/NotFound"
 
 export default function LoggedIn() {
-  const user = null
+  const [{ user, auth: { uid } }, dispatch] = useAppState()
 
   return user ? (
     <Fragment>

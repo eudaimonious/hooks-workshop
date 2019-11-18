@@ -7,6 +7,7 @@ import { format as formatDate, distanceInWordsToNow } from "date-fns"
 const stopPropagation = event => event.stopPropagation()
 
 export default function FeedPost({ post }) {
+  console.log(post);
   const user = useDocWithCache(`users/${post.uid}`)
   const ariaLink = useAriaLink(`/${post.uid}/${post.date}`)
 

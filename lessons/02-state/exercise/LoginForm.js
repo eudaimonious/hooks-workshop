@@ -8,6 +8,21 @@ import { login } from "app/utils"
 // export default LoginFormFinal
 
 export default function LoginForm() {
+  const [checked, setChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckbox = () => setChecked(!checked);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoading(true);
+    // This is "destructuring" the value from event.target.elements
+    const [emailNode, passwordNode] = event.target.elements
+    login(emailNode.value, passwordNode.value).catch(error => {
+      console.log(error.message)
+      setLoading(false)
+    })
+  };
+
   return (
     <form>
       <VisuallyHidden>
@@ -25,7 +40,7 @@ export default function LoginForm() {
       </VisuallyHidden>
       <input
         id="login:password"
-        type="password"
+        type={checked ? "text" : "password"}
         className="inputField"
         placeholder="Password"
       />
@@ -35,15 +50,18 @@ export default function LoginForm() {
           <input
             className="passwordCheckbox"
             type="checkbox"
-            defaultChecked={false}
+            defaultChecked={checked}
+            onChange={handleCheckbox}
           />{" "}
           show password
         </label>
       </div>
 
-      <TabsButton>
+      <TabsButton
+        onSubmit={handleSubmit}
+      >
         <FaSignInAlt />
-        <span>Login</span>
+        <span>{loading ? "Loading" : "Login"}</span>
       </TabsButton>
     </form>
   )
